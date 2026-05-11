@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 	"text/template"
 )
 
@@ -37,6 +39,39 @@ func asciiHandler(w http.ResponseWriter, r *http.Request) {
 	ascii := GenerateAscii(text, banner)
 	tmpl.Execute(w, ascii)
 
+}
+func GenerateAscii(text, banner string) string {
+	text = strings.ReplaceAll(text, "\r\n", "\n")
+
+	data, err := os.ReadFile("banners/" + banner + ".txt")
+	if err != nil {
+		return "Error reading banner file\n"
+	}
+
+	fileLines := strings.Split(string(data), "\n")
+	result := ""
+	words := strings.Split(text, "\n")
+
+	for _, word := range words {
+		for i := 1; i <= 8; i++ {
+			for _, char := range word {
+				if char < 32 || char > 126 {
+					continue
+				}
+
+				asciiIndex := int(char) - 32
+				start := asciiIndex * 9
+
+				if start+i >= len(fileLines) {
+					continue
+				}
+
+				result += fileLines[start+i]
+			}
+			result += "\n"
+		}
+	}
+	return result
 }
 
 func main() {
