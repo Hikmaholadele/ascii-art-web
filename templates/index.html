@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ascii Art Web</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>ASCII ART GENERATOR</h1>
+
+        <form action="/ascii-art" method="POST">
+
+            <div>
+                <label>Enter Input</label>
+
+                <textarea name="text" rows="5"></textarea>
+            </div>
+
+            <div>
+                <label>Select Banner</label>
+
+                <div class="radio-group">
+
+                    <label class="radio-option">
+                        <input type="radio" name="banner" value="shadow" checked>
+                        Shadow
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio" name="banner" value="standard">
+                        Standard
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio" name="banner" value="thinkertoy">
+                        Thinkertoy
+                    </label>
+
+                </div>
+            </div>
+
+            <button type="submit">Generate ASCII</button>
+
+        </form>
+
+        <pre>{{.}}</pre>
+    </div>
+</body>
+</html>
