@@ -40,8 +40,10 @@ func asciiHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, ascii)
 
 }
+
 func GenerateAscii(text, banner string) string {
 	text = strings.ReplaceAll(text, "\r\n", "\n")
+	text = strings.ReplaceAll(text, "\\n", "\n")
 
 	data, err := os.ReadFile("banners/" + banner + ".txt")
 	if err != nil {
@@ -49,28 +51,32 @@ func GenerateAscii(text, banner string) string {
 	}
 
 	fileLines := strings.Split(string(data), "\n")
+	lines := strings.Split(text, "\n")
+
 	result := ""
-	words := strings.Split(text, "\n")
 
-	for _, word := range words {
-		for i := 1; i <= 8; i++ {
-			for _, char := range word {
-				if char < 32 || char > 126 {
-					continue
-				}
+	for _, line := range lines {
 
-				asciiIndex := int(char) - 32
-				start := asciiIndex * 9
+		// handle empty line from \n\n
+		if line == "" {
+			result += "\n"
+			continue
+		}
 
-				if start+i >= len(fileLines) {
-					continue
-				}
+		// print ascii art normally
+		for row := 1; row <= 8; row++ {
 
-				result += fileLines[start+i]
+			for _, ch := range line {
+
+				index := (int(ch) - 32) * 9
+
+				result += fileLines[index+row]
 			}
+
 			result += "\n"
 		}
 	}
+
 	return result
 }
 
@@ -80,9 +86,9 @@ func main() {
 	fs := http.FileServer(http.Dir("static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	fmt.Println("Server running on http://localhost:8080")
+	fmt.Println("Server running on http://localhost:8000")
 
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		fmt.Println("Error starting server: ", err)
 	}
