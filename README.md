@@ -16,3 +16,22 @@ ASCII Art Web is a web application written in Go that converts user input text i
 * Error handling for invalid inputs
 * Built using Go's `net/http` package
 
+---
+
+## Project Structure
+
+```text
+ascii-art-web/
+├── banners/
+│   ├── standard.txt
+│   ├── shadow.txt
+│   └── thinkertoy.txt
+├── templates/
+│   └── index.html
+├── main.go
+├── go.mod
+└── README.md
+```
+
+---
+
