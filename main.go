@@ -83,8 +83,8 @@ func GenerateAscii(text, banner string) string {
 func main() {
 	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/ascii-art", asciiHandler)
-	fs := http.FileServer(http.Dir("static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	// fs := http.FileServer(http.Dir("static"))
+	// http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	fmt.Println("Server running on http://localhost:8000")
 
